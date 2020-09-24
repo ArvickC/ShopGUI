@@ -1,0 +1,9 @@
+name: ShopGUI
+version: ${project.version}
+main: me.crazybanana.shopgui.ShopGUI
+api-version: 1.16
+authors: [CrazyBanana4Life]
+description: Shop
+commands:
+  shop:
+    description: Shop
