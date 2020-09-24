@@ -24,6 +24,16 @@ public class Shop implements CommandExecutor, Listener {
     public Inventory shopMenuInv;
     private String title = AQUA + "[" + GOLD + "Shop" + AQUA + "]";
 
+    // Items
+    private Integer workStation = 12;
+    private Integer ores = 13;
+    private Integer disc = 14;
+    private Integer block = 19;
+    private Integer farm = 20;
+    private Integer mob = 21;
+    private Integer enchant = 22;
+    private Integer dye = 23;
+
     // Command
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
@@ -43,7 +53,6 @@ public class Shop implements CommandExecutor, Listener {
     @EventHandler()
     public void onClick(InventoryClickEvent event) {
         // Checks
-        Bukkit.getServer().dispatchCommand(Bukkit.getConsoleSender(), "essentials:bc I'm in the onClick");
         if(!event.getInventory().equals(shopMenuInv)) return;
         if(event.getCurrentItem().getItemMeta() == null) return;
         if(event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
@@ -62,14 +71,7 @@ public class Shop implements CommandExecutor, Listener {
         ItemMeta emptyMeta = empty.getItemMeta();
         emptyMeta.setDisplayName(BLACK + "");
         empty.setItemMeta(emptyMeta);
-        // Work Stations *ws*
-        ItemStack ws = new ItemStack(Material.STONECUTTER, 1);
-        ItemMeta wsM = ws.getItemMeta();
-        wsM.setDisplayName(GOLD + "Work Stations");
-        ArrayList<String> wsL = new ArrayList<String>();
-        wsL.add(AQUA + "Have your villager get professions");
-        wsM.setLore(wsL);
-        ws.setItemMeta(wsM);
+
 
         // Placing items
         // Empty
@@ -93,7 +95,35 @@ public class Shop implements CommandExecutor, Listener {
         shopMenuInv.setItem(51, empty);
         shopMenuInv.setItem(52, empty);
         shopMenuInv.setItem(53, empty);
-        // Placing Items
-        Integer workStation = 12;
+        // Work Station
+        shopMenuInv.setItem(workStation, createItem(Material.STONECUTTER, "Work Stations", null, DARK_GRAY));
+        // Ores
+        shopMenuInv.setItem(ores, createItem(Material.IRON_INGOT, "Ores", null, WHITE));
+        // Disc
+        shopMenuInv.setItem(disc, createItem(Material.MUSIC_DISC_STAL, "Music Discs", "", GOLD));
+        // Block
+        shopMenuInv.setItem(block, createItem(Material.GRASS_BLOCK, "Blocks", null, DARK_GREEN));
+        // Farm
+        shopMenuInv.setItem(farm, createItem(Material.WHEAT, "Farming", null, GREEN));
+        // Mob
+        shopMenuInv.setItem(mob, createItem(Material.GUNPOWDER, "Mob Drops", null, GRAY));
+        // Enchant
+        shopMenuInv.setItem(enchant, createItem(Material.ENCHANTED_BOOK, "Enchants", null, LIGHT_PURPLE));
+        // Dye
+        shopMenuInv.setItem(dye, createItem(Material.POPPY, "Dyes", null, RED));
+
+    }
+
+    public ItemStack createItem(Material m, String name, String lore, ChatColor c) {
+        ItemStack is = new ItemStack(m, 1);
+        ItemMeta isM = is.getItemMeta();
+        isM.setDisplayName(c + name);
+        if(lore != null) {
+            ArrayList<String> isL = new ArrayList<String>();
+            isL.add(AQUA + lore);
+            isM.setLore(isL);
+        }
+        is.setItemMeta(isM);
+        return is;
     }
 }
