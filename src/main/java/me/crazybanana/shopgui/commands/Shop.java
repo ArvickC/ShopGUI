@@ -10,9 +10,11 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +35,14 @@ public class Shop implements CommandExecutor, Listener {
     private Integer mob = 21;
     private Integer enchant = 22;
     private Integer dye = 23;
+    private Integer other = 24;
+    private Integer food = 25;
+    private Integer sea = 30;
+    private Integer spawn = 31;
+    private Integer redstone = 32;
+    private Integer potion = 40;
+    private Integer close = 44;
+    private Integer money = 36;
 
     // Command
     @Override
@@ -111,6 +121,23 @@ public class Shop implements CommandExecutor, Listener {
         shopMenuInv.setItem(enchant, createItem(Material.ENCHANTED_BOOK, "Enchants", null, LIGHT_PURPLE));
         // Dye
         shopMenuInv.setItem(dye, createItem(Material.POPPY, "Dyes", null, RED));
+        // Other
+        shopMenuInv.setItem(other, createItem(Material.TOTEM_OF_UNDYING, "Others", null, GOLD));
+        // Food
+        shopMenuInv.setItem(food, createItem(Material.APPLE, "Food", null, RED));
+        // Sea
+        shopMenuInv.setItem(sea, createItem(Material.TUBE_CORAL, "Ocean", null, BLUE));
+        // Spawn
+        shopMenuInv.setItem(spawn, createItem(Material.SPAWNER, "Spawners", null, WHITE));
+        // Redstone
+        shopMenuInv.setItem(redstone, createItem(Material.SPAWNER, "Redstone", null, RED));
+        // Potion
+        shopMenuInv.setItem(potion, createItem(Material.POTION, "Potions", null, WHITE));
+
+        // Close
+        shopMenuInv.setItem(close, createItem(Material.BARRIER, "Close", null, RED));
+        // Money
+        shopMenuInv.setItem(money, createItem(Material.EMERALD, "Balance", null, GREEN));
 
     }
 
