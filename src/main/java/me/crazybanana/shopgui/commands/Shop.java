@@ -1,11 +1,15 @@
 package me.crazybanana.shopgui.commands;
 
+import me.crazybanana.shopgui.ShopGUI;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -14,10 +18,8 @@ import org.bukkit.event.inventory.InventoryOpenEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.bukkit.ChatColor.*;
 
@@ -25,6 +27,10 @@ public class Shop implements CommandExecutor, Listener {
     // Vars
     public Inventory shopMenuInv;
     private String title = AQUA + "[" + GOLD + "Shop" + AQUA + "]";
+    private OfflinePlayer cmdSender = null;
+    private ConsoleCommandSender console = Bukkit.getConsoleSender();
+
+    Economy economy = ShopGUI.getEconomy();
 
     // Items
     private Integer workStation = 12;
@@ -51,6 +57,7 @@ public class Shop implements CommandExecutor, Listener {
         if(sender instanceof Player) {
             // Perm?
             if(sender.hasPermission("shop.use")) {
+                cmdSender = (OfflinePlayer) sender;
                 // GUI Open *Shop Menu*
                 ((Player) sender).openInventory(shopMenuInv);
                 return true;
@@ -68,6 +75,16 @@ public class Shop implements CommandExecutor, Listener {
         if(event.getCurrentItem().getItemMeta().getDisplayName() == null) return;
 
         event.setCancelled(true);
+    }
+
+    @EventHandler()
+    public void onOpen(InventoryOpenEvent event) {
+        // Check
+        if(!event.getInventory().equals(shopMenuInv)) return;
+
+        String bal = String.valueOf((economy.getBalance(cmdSender)));
+
+        event.getInventory().setItem(money, createItem(Material.EMERALD, "Balance", bal, GREEN));
     }
 
     // Inventory Creation *ShopMenu*
@@ -110,7 +127,7 @@ public class Shop implements CommandExecutor, Listener {
         // Ores
         shopMenuInv.setItem(ores, createItem(Material.IRON_INGOT, "Ores", null, WHITE));
         // Disc
-        shopMenuInv.setItem(disc, createItem(Material.MUSIC_DISC_STAL, "Music Discs", "", GOLD));
+        shopMenuInv.setItem(disc, createItem(Material.MUSIC_DISC_STAL, "Music Discs", null, GOLD));
         // Block
         shopMenuInv.setItem(block, createItem(Material.GRASS_BLOCK, "Blocks", null, DARK_GREEN));
         // Farm
@@ -130,14 +147,12 @@ public class Shop implements CommandExecutor, Listener {
         // Spawn
         shopMenuInv.setItem(spawn, createItem(Material.SPAWNER, "Spawners", null, WHITE));
         // Redstone
-        shopMenuInv.setItem(redstone, createItem(Material.SPAWNER, "Redstone", null, RED));
+        shopMenuInv.setItem(redstone, createItem(Material.REDSTONE, "Redstone", null, RED));
         // Potion
         shopMenuInv.setItem(potion, createItem(Material.POTION, "Potions", null, WHITE));
 
         // Close
         shopMenuInv.setItem(close, createItem(Material.BARRIER, "Close", null, RED));
-        // Money
-        shopMenuInv.setItem(money, createItem(Material.EMERALD, "Balance", null, GREEN));
 
     }
 
