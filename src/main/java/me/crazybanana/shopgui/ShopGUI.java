@@ -31,6 +31,9 @@ public final class ShopGUI extends JavaPlugin implements Listener {
         getServer().getPluginManager().registerEvents(s, this);
         getCommand("shop").setExecutor(s);
         s.createInvShopMenu();
+        s.createWorkStationShopMenu();
+        s.createOresShopMenu();
+        s.createDiscShopMenu();
     }
 
     private boolean setupEconomy() {
